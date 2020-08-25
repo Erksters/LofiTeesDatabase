@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 'corsheaders',
+
 ]
 
 MIDDLEWARE = [
@@ -120,3 +123,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://shesmyboo.com',
+    'https://shesmyboo.com',
+    'https://myboo-5518b.web.app',
+    'https://myboo-5518b.firebaseapp.com'
+
+]
