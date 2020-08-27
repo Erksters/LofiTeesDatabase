@@ -21,7 +21,6 @@ from .views import login, sign_up, find_similar_username, whos_token, logout
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/login',login),
-    
     path('api/sign_up', sign_up),
     path('api/find_similar_username/<slug:theName>', find_similar_username),
     path('api/whostoken', whos_token),

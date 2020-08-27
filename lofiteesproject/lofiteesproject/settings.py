@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    
-    # 'corsheaders',
+    'corsheaders',
+    'whitenoise.runserver_nostatic',
+
 
 ]
 
@@ -61,6 +62,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # new
+    'whitenoise.middleware.WhiteNoiseMiddleware', # new
+
 ]
 
 ROOT_URLCONF = 'lofiteesproject.urls'

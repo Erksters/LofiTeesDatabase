@@ -1,21 +1,22 @@
 
-from django.contrib.auth import authenticate
-from django.contrib.auth.forms import UserCreationForm
-from django.core import serializers
-from django.contrib.auth.models import User
-
-from django.shortcuts import redirect, render
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND,
     HTTP_200_OK,
     HTTP_400_BAD_REQUEST
 )
-from rest_framework.response import Response
+from django.shortcuts import redirect
+
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+
+from django.core import serializers
 
 '''
 Checks for valid User authentication and will
@@ -27,6 +28,7 @@ Checks for valid User authentication and will
 def login(request):
     username = request.data.get("username") 
     password = request.data.get("password")
+    print("Hello \n",request.data )
     if username is None or password is None:
         return Response({'error': 'Please provide both username and password'},
                         status=HTTP_400_BAD_REQUEST)
@@ -62,15 +64,15 @@ def sign_up(request):
 
         username = request.data.get("username") 
         password = request.data.get("password")
-
+        email = request.data.get("email")
+        User.objects.create_user(username, email=email,  password=password)
 
         data = {'message': "User Was Created"}
-        User.objects.create_user(username, email="someemail@email.com",  password=password)
-        # User.objects.create_user(username='username', password='ROYGBIabc123.', email="someemail@email.com")
         return Response(data, status=HTTP_200_OK)
-
-    # return redirect('http://127.0.0.1:3000/login/')
-    # return redirect('http://google.com/')
+        # return redirect('http://127.0.0.1:3000/login/')
+    
+    data = {"message":"Nothing happened"}
+    # return Response(data, status=HTTP_200_OK)
 
 
 '''
