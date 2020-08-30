@@ -111,7 +111,7 @@ Otherwise tell frontend that they need one
 from lofiteesproject.settings import EMAIL_HOST_USER
 
 @csrf_exempt
-@api_view(["GET"])
+@api_view(["POST"])
 @permission_classes((AllowAny,))
 def create_order(request):
     customer_username = request.data.get("username")
