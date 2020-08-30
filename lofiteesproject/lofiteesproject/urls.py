@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
-from .views import login, sign_up, find_similar_username, whos_token, logout
+from .views import login, sign_up, find_similar_username, whos_token, logout, create_order
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,7 +24,8 @@ urlpatterns = [
     path('api/sign_up', sign_up),
     path('api/find_similar_username/<slug:theName>', find_similar_username),
     path('api/whostoken', whos_token),
-    path('api/logout', logout) 
+    path('api/logout', logout),
+    path('api/createorder', create_order),
 
     
 ]

@@ -17,6 +17,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 
 from django.core import serializers
+from django.core.mail import send_mail
 
 '''
 Checks for valid User authentication and will
@@ -100,9 +101,29 @@ Otherwise tell frontend that they need one
 @api_view(["POST"])
 def whos_token(request):
     myToken = request.headers['Authorization'].split(' ')[1]
-    data ={"myUser": serializers.serialize("json",Token.objects.all().filter(key=myToken) )} 
+    data ={"myUser": serializers.serialize("json",Token.objects.all().filter(key=myToken))} 
     return Response(data, status=HTTP_200_OK)
 
+'''
+To help figure out who is signed in with a token.
+Otherwise tell frontend that they need one 
+'''
+from lofiteesproject.settings import EMAIL_HOST_USER
 
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((AllowAny,))
+def create_order(request):
+    customer_username = request.data.get("username")
+    # customer_email = request.data.get("email")
+
+    subject = "LofiTees Order Confirmation Email"
+    message_for_customer = "\nThank you for placing an order with us {}\n*This is an auto-generated message.\n*Please do not reply as no one will answer".format(customer_username)
+    message_for_manufacturer = "Hey someone placed an order"
+    recipients = ["erksterx@gmail.com"]
+    send_mail(subject, message_for_customer, "ericklofitees@gmail.com" , recipients, True, "ericklofitees@gmail.com", "foremail2020.")
+    send_mail(subject, message_for_manufacturer, "ericklofitees@gmail.com" , recipients, True, "ericklofitees@gmail.com", "foremail2020.")
+    data = {"message", "emails sent"}
+    return Response(data, status=HTTP_200_OK)
 
 # def my_orders(request, userID):
