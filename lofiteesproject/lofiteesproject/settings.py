@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'whitenoise.runserver_nostatic',
-
+    'allshirts',
 
 ]
 
@@ -137,6 +137,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+MEDIA_URL = '/media/'
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
@@ -151,4 +153,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-
+EMAIL_HOST_USER = 'ericklofitees@gmail.com'
+EMAIL_PASSWORD  = 'foremail2020.'
