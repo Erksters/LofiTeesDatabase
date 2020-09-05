@@ -16,7 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
+
+from django.conf.urls.static import static
 from .views import login, sign_up, find_similar_username, whos_token, logout, create_order
+from allshirts.views import get_all_shirts
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +30,7 @@ urlpatterns = [
     path('api/whostoken', whos_token),
     path('api/logout', logout),
     path('api/createorder', create_order),
+    path('api/allshirts', get_all_shirts )
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
     
-]
