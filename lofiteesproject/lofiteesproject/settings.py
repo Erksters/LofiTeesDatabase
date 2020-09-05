@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'whitenoise.runserver_nostatic',
     'allshirts',
-
+    'locationprofile'
 ]
 
 
@@ -142,10 +142,7 @@ MEDIA_URL = '/media/'
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
-    'http://shesmyboo.com',
-    'https://shesmyboo.com',
-    'https://myboo-5518b.web.app',
-    'https://myboo-5518b.firebaseapp.com'
+    'http://www.lofitees.com'
 
 ]
 
