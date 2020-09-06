@@ -19,7 +19,7 @@ from django.conf.urls import url
 
 from django.conf.urls.static import static
 from .views import login, sign_up, find_similar_username, whos_token, logout, create_order
-from allshirts.views import get_all_shirts
+from allshirts.views import get_all_shirts, get_shirt
 from locationprofile.views import get_my_address, create_or_update_my_address
 from django.conf import settings
 
@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/logout', logout),
     path('api/createorder', create_order),
     path('api/allshirts', get_all_shirts ),
+    path('api/get_shirt/<str:title>', get_shirt),
     path('api/my_address',get_my_address ),
     path('api/create_or_update_my_address',create_or_update_my_address )
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

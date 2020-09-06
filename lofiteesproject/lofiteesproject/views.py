@@ -7,10 +7,13 @@ from rest_framework.status import (
     HTTP_400_BAD_REQUEST
 )
 from django.shortcuts import redirect
+from django.http import JsonResponse
+
 
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from locationprofile.models import locationProfile
 
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
@@ -38,8 +41,13 @@ def login(request):
         return Response({'error': 'Invalid Credentials'},
                         status=HTTP_404_NOT_FOUND)
     token, _ = Token.objects.get_or_create(user=user)
-    return Response({'token': token.key},
-                    status=HTTP_200_OK)
+    my_location_profile = locationProfile.objects.filter(my_user=user)
+    return Response({
+        'token': token.key,
+        "username":username,
+        "locationprofile":serializers.serialize('json',list(my_location_profile)
+        )},
+        status=HTTP_200_OK)
 
 '''
 Checks for valid token and will sign out a user
@@ -82,7 +90,6 @@ Helps the frontend check to see if a user already exists
 @csrf_exempt
 @permission_classes((AllowAny,))
 def find_similar_username(request, theName):
-    print(request)
     querySet = User.objects.filter(username=theName).count()
     if  querySet == 0:
         data={"message": "{} is available.".format(theName)}
@@ -101,8 +108,9 @@ Otherwise tell frontend that they need one
 @api_view(["POST"])
 def whos_token(request):
     myToken = request.headers['Authorization'].split(' ')[1]
-    data ={"myUser": serializers.serialize("json",Token.objects.all().filter(key=myToken))} 
-    return Response(data, status=HTTP_200_OK)
+    MyUsername = Token.objects.all().filter(key=myToken)[0].user
+    MyUser = User.objects.filter(username=MyUsername).values("username", "locationprofile")
+    return JsonResponse(list(MyUser), safe=False)
 
 '''
 To help figure out who is signed in with a token.
