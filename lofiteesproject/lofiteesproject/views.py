@@ -20,7 +20,6 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 
 from django.core import serializers
-from django.core.mail import send_mail
 
 '''
 Checks for valid User authentication and will
