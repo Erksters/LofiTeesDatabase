@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'whitenoise.runserver_nostatic',
     'allshirts',
-    'locationprofile'
+    'locationprofile',
+    'order',
+    'orderline'
 ]
 
 

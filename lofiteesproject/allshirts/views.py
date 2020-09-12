@@ -40,7 +40,8 @@ def get_shirt(request, title):
         "title",
         "date_created",
         "img",
-        "description"
+        "description",
+        "pk"
     )
     datalist = list(data)
     return JsonResponse(datalist, safe=False) 

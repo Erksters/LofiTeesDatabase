@@ -112,26 +112,3 @@ def whos_token(request):
     MyUser = User.objects.filter(username=MyUsername).values("username", "locationprofile")
     return JsonResponse(list(MyUser), safe=False)
 
-'''
-To help figure out who is signed in with a token.
-Otherwise tell frontend that they need one 
-'''
-from lofiteesproject.settings import EMAIL_HOST_USER
-
-@csrf_exempt
-@api_view(["POST"])
-@permission_classes((AllowAny,))
-def create_order(request):
-    customer_username = request.data.get("username")
-    # customer_email = request.data.get("email")
-
-    subject = "LofiTees Order Confirmation Email"
-    message_for_customer = "\nThank you for placing an order with us {}\n*This is an auto-generated message.\n*Please do not reply as no one will answer".format(customer_username)
-    message_for_manufacturer = "Hey someone placed an order"
-    recipients = ["erksterx@gmail.com"]
-    send_mail(subject, message_for_customer, "ericklofitees@gmail.com" , recipients, True, "ericklofitees@gmail.com", "foremail2020.")
-    send_mail(subject, message_for_manufacturer, "ericklofitees@gmail.com" , recipients, True, "ericklofitees@gmail.com", "foremail2020.")
-    data = {"message", "emails sent"}
-    return Response(data, status=HTTP_200_OK)
-
-# def my_orders(request, userID):

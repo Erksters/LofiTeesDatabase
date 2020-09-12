@@ -18,9 +18,10 @@ from django.urls import path, include
 from django.conf.urls import url
 
 from django.conf.urls.static import static
-from .views import login, sign_up, find_similar_username, whos_token, logout, create_order
+from .views import login, sign_up, find_similar_username, whos_token, logout
 from allshirts.views import get_all_shirts, get_shirt
 from locationprofile.views import get_my_address, create_or_update_my_address
+from order.views import create_order_no_location_profile
 from django.conf import settings
 
 urlpatterns = [
@@ -30,7 +31,7 @@ urlpatterns = [
     path('api/find_similar_username/<slug:theName>', find_similar_username),
     path('api/whostoken', whos_token),
     path('api/logout', logout),
-    path('api/createorder', create_order),
+    path('api/create_order_no_location_profile', create_order_no_location_profile),
     path('api/allshirts', get_all_shirts ),
     path('api/get_shirt/<str:title>', get_shirt),
     path('api/my_address',get_my_address ),
