@@ -10,6 +10,7 @@ from rest_framework.status import (
 
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
 
 from locationprofile.models import locationProfile
@@ -17,25 +18,33 @@ from order.models import Order
 from orderline.models import OrderLine
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
+from allshirts.models import allshirts
+
+from django.core.mail import send_mail
+
 
 
 # Create your views here.
 @csrf_exempt
 @api_view(["POST"])
+@permission_classes((AllowAny,))
 def create_order_no_location_profile(request):
-    Order.objects.create(
+    newOrder = Order.objects.create(
         first_name=request.data.get("first_name"),
         last_name=request.data.get("last_name"),
-        email=request.data.get("email"),
-        quantity=request.data.get("quantity"),
-        shirt_id=request.data.get("shirtID"),
-        size=request.data.get("size"),
-        price=request.data.get("price"),
         street=request.data.get("street"),
         street2=request.data.get("street2"),
         state=request.data.get("state"),
         zipcode=request.data.get("zipcode")
     )
+    orderlines = request.data.get("lines")
+    split_Order_Lines = orderlines.split(",")
+
+    for line in split_Order_Lines:
+        shirtID_size = line.split(".")
+        OrderLine.objects.create(shirt_id=allshirts.objects.filter(pk=shirtID_size[0])[0] , size=shirtID_size[1], orderID=newOrder)
+
+
     recipients = [request.data.get("email")]
 
     subject = "LofiTees Order Confirmation Email"
