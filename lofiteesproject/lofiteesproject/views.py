@@ -31,7 +31,6 @@ Checks for valid User authentication and will
 def login(request):
     username = request.data.get("username") 
     password = request.data.get("password")
-    print("Hello \n",request.data )
     if username is None or password is None:
         return Response({'error': 'Please provide both username and password'},
                         status=HTTP_400_BAD_REQUEST)
