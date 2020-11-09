@@ -22,20 +22,62 @@ from allshirts.models import allshirts
 
 from django.core.mail import send_mail
 
-
-
 # Create your views here.
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((AllowAny,))
 def create_order_no_location_profile(request):
+    print()
+    print()
+    print()
+    print()
+    print("This is the received data")
+    print(request.data)
+
+    print()
+    print()
+    try:
+        my_user_name = request.data.get("user_name")
+        print()
+        print()
+        print()
+        print()
+        print("This is the extracted data")
+        print(my_user_name)
+        print(type(my_user_name))
+        print()
+        print()
+        my_user_name = User.objects.filter(username=my_user_name)[0]
+        print()
+        print()
+        print()
+        print()
+        print("Ths is the filtered user data")
+        print(my_user_name)
+        print(type(my_user_name))
+        print()
+        print()
+    except:
+        my_user_name = None
+
+    print()
+    print()
+    print()
+    print()
+    print("This is the resulting my_user_name")
+    print(my_user_name)
+    print(type(my_user_name))
+    print()
+    print()
+
     newOrder = Order.objects.create(
         first_name=request.data.get("first_name"),
         last_name=request.data.get("last_name"),
         street=request.data.get("street"),
         street2=request.data.get("street2"),
         state=request.data.get("state"),
-        zipcode=request.data.get("zipcode")
+        zipcode=request.data.get("zipcode"),
+        my_user=my_user_name
     )
     orderlines = request.data.get("lines")
     split_Order_Lines = orderlines.split(",")
@@ -43,7 +85,6 @@ def create_order_no_location_profile(request):
     for line in split_Order_Lines:
         shirtID_size = line.split(".")
         OrderLine.objects.create(shirt_id=allshirts.objects.filter(pk=shirtID_size[0])[0] , size=shirtID_size[1], orderID=newOrder)
-
 
     recipients = [request.data.get("email")]
 

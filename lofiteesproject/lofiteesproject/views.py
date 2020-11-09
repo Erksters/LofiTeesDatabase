@@ -86,9 +86,18 @@ def sign_up(request):
 Helps the frontend check to see if a user already exists
 '''
 @csrf_exempt
+@api_view(["GET"])
 @permission_classes((AllowAny,))
 def find_similar_username(request, theName):
+    print()
+    print()
+    print()
+    print()
+    print("HELLO")
+    print()
+    print()
     querySet = User.objects.filter(username=theName).count()
+
     if  querySet == 0:
         data={"message": "{} is available.".format(theName)}
         return Response(data, status=HTTP_404_NOT_FOUND)
@@ -96,6 +105,11 @@ def find_similar_username(request, theName):
     else:
         data={"message": "We found {}. Please select another username".format(theName)}
         return Response(data, status=HTTP_400_BAD_REQUEST)
+
+    data={"message": "Something went Wrong"}
+    return Response(data, status=HTTP_200_OK)
+    
+    
 
 
 '''
@@ -107,6 +121,6 @@ Otherwise tell frontend that they need one
 def whos_token(request):
     myToken = request.headers['Authorization'].split(' ')[1]
     MyUsername = Token.objects.all().filter(key=myToken)[0].user
-    MyUser = User.objects.filter(username=MyUsername).values("username", "locationprofile")
+    MyUser = User.objects.filter(username=MyUsername).values("username", "locationprofile", "order")
     return JsonResponse(list(MyUser), safe=False)
 

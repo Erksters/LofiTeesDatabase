@@ -29,7 +29,7 @@ urlpatterns = [
     path('api/login',login),
     path('api/sign_up', sign_up),
     path('api/find_similar_username/<slug:theName>', find_similar_username),
-    path('api/whostoken', whos_token),
+    path('api/whos_token', whos_token),
     path('api/logout', logout),
     path('api/create_order_no_location_profile', create_order_no_location_profile),
     path('api/allshirts', get_all_shirts ),
