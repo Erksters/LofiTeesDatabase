@@ -89,13 +89,7 @@ Helps the frontend check to see if a user already exists
 @api_view(["GET"])
 @permission_classes((AllowAny,))
 def find_similar_username(request, theName):
-    print()
-    print()
-    print()
-    print()
-    print("HELLO")
-    print()
-    print()
+
     querySet = User.objects.filter(username=theName).count()
 
     if  querySet == 0:

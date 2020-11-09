@@ -11,7 +11,8 @@ from rest_framework.status import (
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+import json
 
 from locationprofile.models import locationProfile
 from order.models import Order
@@ -22,53 +23,19 @@ from allshirts.models import allshirts
 
 from django.core.mail import send_mail
 
-# Create your views here.
+'''
+Create an order and orderlines. 
+Will check for a logged in user
+'''
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((AllowAny,))
 def create_order_no_location_profile(request):
-    print()
-    print()
-    print()
-    print()
-    print("This is the received data")
-    print(request.data)
-
-    print()
-    print()
     try:
         my_user_name = request.data.get("user_name")
-        print()
-        print()
-        print()
-        print()
-        print("This is the extracted data")
-        print(my_user_name)
-        print(type(my_user_name))
-        print()
-        print()
         my_user_name = User.objects.filter(username=my_user_name)[0]
-        print()
-        print()
-        print()
-        print()
-        print("Ths is the filtered user data")
-        print(my_user_name)
-        print(type(my_user_name))
-        print()
-        print()
     except:
         my_user_name = None
-
-    print()
-    print()
-    print()
-    print()
-    print("This is the resulting my_user_name")
-    print(my_user_name)
-    print(type(my_user_name))
-    print()
-    print()
 
     newOrder = Order.objects.create(
         first_name=request.data.get("first_name"),
@@ -96,3 +63,26 @@ def create_order_no_location_profile(request):
     send_mail(subject, message_for_customer, "ericklofitees@gmail.com" , recipients, True, "ericklofitees@gmail.com", "foremail2020.")
     send_mail(subject, message_for_manufacturer, "ericklofitees@gmail.com" , recipients, True, "ericklofitees@gmail.com", "foremail2020.")
     return Response({"message":"Order Created!"}, status=HTTP_200_OK) 
+
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((AllowAny,))
+def fetch_my_orders(request):
+    my_user_name = request.data.get("user_name")
+    my_user_pk = User.objects.filter(username=my_user_name)[0]
+    print()
+    print("this is my_user",my_user_pk)
+    print()
+    Orders_for_my_user = Order.objects.filter(my_user=my_user_pk).values("pk","first_name","last_name","street","street2","state","zipcode","date_created")
+    print()
+    print("this is Orders_for_my_user", Orders_for_my_user)
+    print()
+    i=1
+    
+    return HttpResponse(list(Orders_for_my_user), HTTP_200_OK)
+    return JsonResponse({"this users Orders":list(Orders_for_my_user)})
+    # except:
+    #     my_user_name = None
+    #     return Response({"message", "Errors lol"}, status=HTTP_404_NOT_FOUND) 
+    

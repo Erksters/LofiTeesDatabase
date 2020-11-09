@@ -11,10 +11,3 @@ class OrderLine(models.Model):
     
     def __str__(self):
         return '%s' % (self.pk)
-
-
-
-
-
-    
-    
