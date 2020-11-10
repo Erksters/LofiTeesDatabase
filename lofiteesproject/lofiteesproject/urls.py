@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from .views import login, sign_up, find_similar_username, whos_token, logout
 from allshirts.views import get_all_shirts, get_shirt, get_shirt_by_id
 from locationprofile.views import get_my_address, create_or_update_my_address
-from order.views import create_order_no_location_profile, fetch_my_orders
+from order.views import create_order_no_location_profile, fetch_my_orders, fetch_my_orderlines
 from django.conf import settings
 
 urlpatterns = [
@@ -33,6 +33,7 @@ urlpatterns = [
     path('api/logout', logout),
     path('api/create_order_no_location_profile', create_order_no_location_profile),
     path('api/fetch_my_orders', fetch_my_orders),
+    path('api/fetch_my_orderlines', fetch_my_orderlines),
     path('api/allshirts', get_all_shirts ),
     path('api/get_shirt/<str:title>', get_shirt),
     path('api/get_shirt_by_id/<str:id>', get_shirt_by_id),

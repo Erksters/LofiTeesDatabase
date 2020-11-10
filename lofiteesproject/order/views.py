@@ -85,4 +85,22 @@ def fetch_my_orders(request):
     # except:
     #     my_user_name = None
     #     return Response({"message", "Errors lol"}, status=HTTP_404_NOT_FOUND) 
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((AllowAny,))
+def fetch_my_orderlines(request):
+    my_order_number = request.data.get("order_number")
+    my_order_lines = OrderLine.objects.filter(orderID=int(my_order_number)).values("pk","shirt_id","size","orderID")
+    print()
+    print("this is my_order_number",my_order_number)
+    print()
+    print("this is Orders_for_my_user", my_order_lines)
+    print()
+    
+    return HttpResponse(list(my_order_lines), HTTP_200_OK)
+    # return JsonResponse({"results": list(my_order_lines)}, safe=False)
+    # except:
+    #     my_user_name = None
+    #     return Response({"message", "Errors lol"}, status=HTTP_404_NOT_FOUND) 
     
