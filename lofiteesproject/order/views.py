@@ -66,7 +66,7 @@ def create_order_no_location_profile(request):
 
 
 @csrf_exempt
-@api_view(["GET"])
+@api_view(["POST"])
 @permission_classes((AllowAny,))
 def fetch_my_orders(request):
     my_user_name = request.data.get("user_name")
@@ -80,14 +80,13 @@ def fetch_my_orders(request):
     print()
     i=1
     
-    return HttpResponse(list(Orders_for_my_user), HTTP_200_OK)
-    return JsonResponse({"this users Orders":list(Orders_for_my_user)})
+    return JsonResponse({"results":list(Orders_for_my_user)})
     # except:
     #     my_user_name = None
     #     return Response({"message", "Errors lol"}, status=HTTP_404_NOT_FOUND) 
 
 @csrf_exempt
-@api_view(["GET"])
+@api_view(["POST"])
 @permission_classes((AllowAny,))
 def fetch_my_orderlines(request):
     my_order_number = request.data.get("order_number")
@@ -98,8 +97,8 @@ def fetch_my_orderlines(request):
     print("this is Orders_for_my_user", my_order_lines)
     print()
     
-    return HttpResponse(list(my_order_lines), HTTP_200_OK)
-    # return JsonResponse({"results": list(my_order_lines)}, safe=False)
+    # return HttpResponse(list(my_order_lines), HTTP_200_OK)
+    return JsonResponse({"results": list(my_order_lines)}, safe=False)
     # except:
     #     my_user_name = None
     #     return Response({"message", "Errors lol"}, status=HTTP_404_NOT_FOUND) 
