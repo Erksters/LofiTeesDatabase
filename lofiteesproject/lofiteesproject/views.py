@@ -115,6 +115,6 @@ Otherwise tell frontend that they need one
 def whos_token(request):
     myToken = request.headers['Authorization'].split(' ')[1]
     MyUsername = Token.objects.all().filter(key=myToken)[0].user
-    MyUser = User.objects.filter(username=MyUsername).values("username", "locationprofile", "order")
+    MyUser = User.objects.filter(username=MyUsername).values("username", "locationprofile", "first_name", "last_name")
     return JsonResponse(list(MyUser), safe=False)
 
