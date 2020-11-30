@@ -72,15 +72,26 @@ def sign_up(request):
         username = request.data.get("username") 
         password = request.data.get("password")
         email = request.data.get("email")
-        User.objects.create_user(username, email=email,  password=password)
+        last_name = request.data.get("last_name")
+        first_name = request.data.get("first_name")
+        User.objects.create_user(username, email=email, password=password, first_name=first_name, last_name=last_name)
+        
+        user = authenticate(username=username, password=password)
+        if not user:
+            return Response({'error': 'Invalid Credentials'},
+                            status=HTTP_404_NOT_FOUND)
+        token, _ = Token.objects.get_or_create(user=user)
+        my_location_profile = locationProfile.objects.filter(my_user=user)
+        return Response({
+            'token': token.key,
+            "username":username,
+            "locationprofile":serializers.serialize('json',list(my_location_profile)
+            )},
+            status=HTTP_200_OK)
 
         data = {'message': "User Was Created"}
         return Response(data, status=HTTP_200_OK)
-        # return redirect('http://127.0.0.1:3000/login/')
     
-    data = {"message":"Nothing happened"}
-    # return Response(data, status=HTTP_200_OK)
-
 
 '''
 Helps the frontend check to see if a user already exists
