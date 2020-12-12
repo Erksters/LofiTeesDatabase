@@ -11,6 +11,6 @@ class Order(models.Model):
     state = models.CharField(max_length = 2)
     zipcode = models.CharField(max_length = 10) 
     date_created = models.DateTimeField(auto_now_add = True) 
-
+    paypal_id = models.CharField(max_length = 200, null=True, blank = True)
     def __str__(self):
         return '%s' % (self.pk)

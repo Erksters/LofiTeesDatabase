@@ -44,7 +44,8 @@ def create_order_no_location_profile(request):
         street2=request.data.get("street2"),
         state=request.data.get("state"),
         zipcode=request.data.get("zipcode"),
-        my_user=my_user_name
+        my_user=my_user_name,
+        paypal_id = request.data.get("paypal_id")
     )
     orderlines = request.data.get("lines")
     split_Order_Lines = orderlines.split(",")
